@@ -4,12 +4,16 @@
 #### 1.1) Retrieving Customer Data
 
  ```SQL
+ -- select all columns
+ -- from the SalesLT.Customer table
 SELECT * FROM SalesLT.Customer;
  ```
 
 #### 1.2) Create List of Customer Contacts
 
 ```SQL
+-- select the Title, FirstName, MiddleName, LastName and Suffix columns
+-- from the Customer table
 SELECT Title, FirstName, MiddleName, LastName, Suffix
 FROM SalesLT.Customer;
 ```
@@ -24,6 +28,7 @@ FROM SalesLT.Customer;
 #### 1.4) Retrieving Customer and Sales Data
 
 ```SQL
+-- cast the CustomerID column to a VARCHAR and concatenate with the CompanyName column
 SELECT CAST(CustomerID AS VARCHAR) + ': ' + CompanyName AS CustomerCompany
 FROM SalesLT.Customer;
 ```
@@ -39,13 +44,15 @@ FROM SalesLT.SalesOrderHeader;
 #### 1.6) Retrieving Customer Contact Names
 
 ```SQL
+-- use ISNULL to check for middle names and concatenate with FirstName and LastName
 SELECT FirstName + ' ' +ISNULL(MiddleName + ' ', '') + LastName
 AS CustomerName
 FROM SalesLT.Customer;
 ```
 #### 1.7) Retrieving Primary Contact Details
 ```SQL
-SELECT CustomerID, ISNULL(EmailAddress, Phone) AS PrimaryContact
+-- select the CustomerID, and use COALESCE with EmailAddress and Phone columns
+SELECT CustomerID, COALESCE(EmailAddress, Phone) AS PrimaryContact
 FROM SalesLT.Customer;
 ```
 #### 1.8) Retrieving Shipping Status
@@ -61,13 +68,16 @@ SELECT SalesOrderID, OrderDate,
 
 #### 2.1) Retrieving Transportation Report Data
 ```SQL
+-- select unique cities, and state province
 SELECT DISTINCT City, StateProvince
 FROM SalesLT.Address;
 ```
 #### 2.2) Retrieving Transportation Report Data (2)
 ```SQL
+-- select the top 10 percent from the Name column
 SELECT TOP 30 Weight, Name
 FROM SalesLT.Product
+-- order by the weight in descending order
 ORDER BY Weight DESC;
 ```
 #### 2.3) Retrieving Transportation Report Data (3)
@@ -75,30 +85,40 @@ ORDER BY Weight DESC;
 SELECT Name, Weight
 FROM SalesLT.Product
 ORDER BY Weight DESC
+-- offset 10 rows and get the next 100
 OFFSET 10 ROWS FETCH NEXT 100 ROWS ONLY;
 ```
 #### 2.4) Retrieving Product Data
 ```SQL
+-- select the Name, Color, and Size columns
 SELECT Name, Color, Size
 FROM SalesLT.Product
+-- check ProductModelID is 1
 WHERE ProductModelID = 1;
 ```
 #### 2.5) Retrieving Product Data (2)
 ```SQL
-SELECT ProductNumber, Name, Color, Size
+-- select the ProductNumber and Name columns
+SELECT ProductNumber, Name
 FROM SalesLT.Product
+-- check that Color is one of 'Black', 'Red' or 'White'
+-- check that Size is one of 'S' or 'M'
 WHERE Color IN ('Black', 'Red', 'White') AND Size IN ('S', 'M');
 ```
 #### 2.6) Retrieving Product Data (3)
 ```SQL
+-- select the ProductNumber, Name, and ListPrice columns
 SELECT ProductNumber, Name, ListPrice
 FROM SalesLT.Product
+-- filter for product numbers beginning with BK- using LIKE
 WHERE ProductNumber LIKE 'BK%';
 ```
 #### 2.7) Retrieving Product Data (4)
 ```SQL
+-- select the ProductNumber, Name, and ListPrice columns
 SELECT ProductNumber, Name, ListPrice
 FROM SalesLT.Product
+-- filter for ProductNumbers
 WHERE ProductNumber LIKE 'BK-[^R]%-[0-9][0-9]';
 ```
 
